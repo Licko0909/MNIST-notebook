@@ -286,10 +286,10 @@ datagen = ImageDataGenerator(
 datagen.fit(x_Test4D_normalize)
 
 
-# 模型训练 (need 5min) (若提示出错找不到loss，照着997重新构造)
-history = model.fit_generator(datagen.flow(x_Test4D_normalize,y_TestOneHot, batch_size=batch_size),
+# 模型训练 (need 5min)  用"训练集"训练，用"验证集"调教，得到一个识别模型，再用测试集测试
+history = model.fit_generator(datagen.flow(X_train1,Y_train1, batch_size=batch_size),
                               epochs = epochs, validation_data = (X_val1,Y_val1),
-                              verbose = 2, steps_per_epoch=X_train.shape[0] // batch_size
+                              verbose = 2, steps_per_epoch=x_Train.shape[0] // batch_size
                               , callbacks=[learning_rate_reduction])
 
 # 绘制训练和验证的损耗和精度曲线
